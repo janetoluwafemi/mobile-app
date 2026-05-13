@@ -1,47 +1,42 @@
 import { Input } from '@/components/input';
 import {useState} from "react";
-import {Alert, Animated, StyleSheet, View} from "react-native";
+import {Alert, Animated, StyleSheet} from "react-native";
 import ScrollView = Animated.ScrollView;
 import {Text} from "react-native";
-import {ContinueWithGoogle} from "@/components/continue-with-google";
-import {LineAndOr} from "@/components/line-and-or";
 import {Button} from "@/components/button";
-import {Texts} from "@/components/text"
 import {HalfCircle} from "@/components/half-circle";
 import axios from 'axios'
-import {router} from "expo-router";
+import {useRouter} from "expo-router";
 
 
-export default function SignUp() {
+export default function verifyEmail() {
+    const router = useRouter();
     const [data, setData] = useState({
         email: "",
         password: ""
     })
-    const handleSignUp = async () => {
+    const handleVerifyEmail = async () => {
         try {
             const response = await
-                axios.post("http://192.168.0.196:8080/api/v1/auth/register", data)
-                Alert.alert(response.data.data.message)
-
+                axios.post("http://192.168.34.221:8080/api/v1/auth/verifyUser", data);
+            Alert.alert(response.data.data.message)
+            router.replace('/forgetPassword')
         } catch (e) {
             console.log(e)
+            alert(e)
         }
     }
     return (
         <ScrollView style={style.container}
         >
             <HalfCircle></HalfCircle>
-            <View
-                style={style.loginContainer}>
+            <Text style={style.loginContainer}>
                 <Text
                     style={style.login}
                 >
-                    Create Account
+                    Enter Email To Change  Password
                 </Text>
-            </View>
-
-            <ContinueWithGoogle text="Continue with Google"/>
-            <LineAndOr text="OR"/>
+            </Text>
             <Input
                 label="Email: "
                 placeholder="Enter your email"
@@ -50,16 +45,7 @@ export default function SignUp() {
                 onChangeText={(text) => setData({...data, email: text})}
                 // error={!email ? "Email is required" : ""}
             />
-            <Input
-                label="Password: "
-                placeholder="Enter your password"
-                type="password"
-                value={data.password}
-                onChangeText={(password) => setData({...data, password})}
-                error=""/>
-            <Texts text="Already have an account?" text2="Sign-In"/>
-
-            <Button onPress={handleSignUp} text="Sign-Up"/>
+            <Button onPress={handleVerifyEmail} text="Submit"/>
         </ScrollView>
     );
 }
@@ -70,12 +56,25 @@ const style = StyleSheet.create({
     },
     loginContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        paddingLeft: 35
     },
     login: {
         fontSize: 36,
         fontWeight: 'bold',
-        color: "#300909"
+        color: "#300909",
+        marginLeft: 15
+    },
+    textContainer: {
+        marginTop: 10,
+        alignSelf: 'flex-start',
+        marginLeft: '28%'
+    },
+    text: {
+        color: '#000000',
+        fontSize: 12,
+        fontWeight: '200',
+        textDecorationLine: "underline"
     }
 });

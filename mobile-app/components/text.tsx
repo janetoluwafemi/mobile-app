@@ -1,17 +1,18 @@
 import {Text, StyleSheet, View, Pressable} from "react-native";
-import {router} from "expo-router";
+import {useRouter} from "expo-router";
 
 type TextProps = {
     text: string;
     text2: "Sign-Up" | "Sign-In"
 }
 export function Texts({text, text2}: TextProps) {
+    const router = useRouter();
     const routing = () => {
-        if (text === "Sign-Up") {
-            router.push("/")
+        if (text2 === "Sign-Up") {
+                router.replace("/");
         }
-        if (text === "Sign-In") {
-            router.push("/login")
+        if (text2 === "Sign-In") {
+            router.replace("/login");
         }
     }
     return (

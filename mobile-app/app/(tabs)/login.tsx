@@ -1,6 +1,6 @@
 import { Input } from '@/components/input';
 import {useState} from "react";
-import {Animated, StyleSheet} from "react-native";
+import {Alert, Animated, StyleSheet, TouchableOpacity} from "react-native";
 import ScrollView = Animated.ScrollView;
 import {Text} from "react-native";
 import {ContinueWithGoogle} from "@/components/continue-with-google";
@@ -9,8 +9,11 @@ import {Button} from "@/components/button";
 import {Texts} from "@/components/text"
 import {HalfCircle} from "@/components/half-circle";
 import axios from 'axios'
+import {useRouter} from "expo-router";
 
-export default function TabTwoScreen() {
+
+export default function login() {
+    const router = useRouter();
     const [data, setData] = useState({
         email: "",
         password: ""
@@ -18,14 +21,15 @@ export default function TabTwoScreen() {
     const handleLogin = async () => {
         try {
             const response = await
-                axios.post("http://localhost:8080/api/v1/auth/loginUser", data)
-            if (response.data.data.message === "User logged in successfully") {
-                alert(response.data.data.message)
-            }
+                axios.post("http://192.168.0.196:8080/api/v1/auth/loginUser", data);
+            Alert.alert(response.data.data.message)
         } catch (e) {
             console.log(e)
+            alert(e)
         }
-
+    }
+    const forgotPassword = () => {
+        router.replace('/verifyEmail')
     }
     return (
       <ScrollView style={style.container}
@@ -57,6 +61,9 @@ export default function TabTwoScreen() {
               onChangeText={(password) => setData({...data, password})}
               error=""/>
           <Texts text="Doesn’t have an account" text2="Sign-Up"/>
+          <TouchableOpacity style={style.textContainer} onPress={forgotPassword}>
+              <Text style={style.text}>Forgot Password?</Text>
+          </TouchableOpacity>
           <Button onPress={handleLogin} text="Login"/>
     </ScrollView>
   );
@@ -77,5 +84,16 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         color: "#300909",
         marginLeft: 15
+    },
+    textContainer: {
+        marginTop: 10,
+        alignSelf: 'flex-start',
+        marginLeft: '28%'
+    },
+    text: {
+        color: '#000000',
+        fontSize: 12,
+        fontWeight: '200',
+        textDecorationLine: "underline"
     }
 });

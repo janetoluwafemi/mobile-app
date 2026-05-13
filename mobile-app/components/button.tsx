@@ -1,4 +1,4 @@
-import {Text, Pressable, View, StyleSheet} from "react-native";
+import {Text, TouchableOpacity, View, StyleSheet} from "react-native";
 
 type buttonProps = {
     text: string;
@@ -7,7 +7,7 @@ type buttonProps = {
 
 export function Button({text, onPress, ...props}: buttonProps) {
     return (
-        <Pressable
+        <TouchableOpacity
             onPress={onPress}
             style={styles.container}
             {...props}
@@ -15,7 +15,7 @@ export function Button({text, onPress, ...props}: buttonProps) {
             <View>
                 <Text style={styles.textContent}>{text}</Text>
             </View>
-        </Pressable>
+        </TouchableOpacity>
     )
 }
 
