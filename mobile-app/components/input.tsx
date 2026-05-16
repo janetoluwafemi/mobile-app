@@ -12,9 +12,21 @@ export type inputProps = {
 }
 export function Input({placeholder, value, onChangeText, label, type, error,
                           otpLength = 4, ...props}: inputProps) {
-    const isPassword = type === "password";
-    const isEmail = type === "email";
     const inputRefs = useRef<Array<TextInput | null>>([]);
+    if (type === "search") {
+        return (
+            <TextInput
+                style={styles.searchInput}
+                placeholder={placeholder}
+                placeholderTextColor="#000"
+                value={value}
+                onChangeText={onChangeText}
+                autoCapitalize={'none'}
+                keyboardType={'default'}
+                returnKeyType={'search'}
+            />
+        )
+    }
     if (type === "otp") {
         const otpValues = value.split("").slice(0, otpLength);
         const handleChange = (text: string, index: number) => {
@@ -121,7 +133,18 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: 350
     },
-
+    searchInput: {
+        marginTop: 20,
+        padding: 12,
+        fontSize: 16,
+        borderWidth: 1,
+        borderColor: "#FBF5F5",
+        backgroundColor: '#FBF5F5',
+        borderRadius: 30,
+        alignItems: 'center',
+        alignSelf: 'center',
+        width: 350
+    },
     label: {
         fontSize: 16,
         fontWeight: "bold",

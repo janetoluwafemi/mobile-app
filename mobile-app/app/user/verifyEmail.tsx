@@ -6,24 +6,26 @@ import {Text} from "react-native";
 import {Button} from "@/components/button";
 import {HalfCircle} from "@/components/half-circle";
 import axios from 'axios'
+import {useRouter} from "expo-router";
 
 
-export default function ForgetPassword() {
-    const [forgetPasswordData, setForgetPasswordData] = useState({
-        otp: "",
-        newPassword: ""
+export default function verifyEmail() {
+    const router = useRouter();
+    const [data, setData] = useState({
+        email: "",
+        password: ""
     })
-    const handleResetPassword = async () => {
+    const handleVerifyEmail = async () => {
         try {
             const response = await
-                axios.post("http://192.168.34.221:8080/api/v1/auth/resetPassword", forgetPasswordData);
+                axios.post("http://192.168.167.221:8080/api/v1/auth/verifyUser", data);
             Alert.alert(response.data.data.message)
+            router.replace('/user/forgetPassword')
         } catch (e) {
             console.log(e)
             alert(e)
         }
     }
-
     return (
         <ScrollView style={style.container}
         >
@@ -32,31 +34,18 @@ export default function ForgetPassword() {
                 <Text
                     style={style.login}
                 >
-                    Change Password
+                    Enter Email To Change  Password
                 </Text>
             </Text>
             <Input
-                label="OTP: "
-                placeholder="Enter your OTP"
-                type="otp"
-                value={forgetPasswordData.otp}
-                onChangeText={(otp) => setForgetPasswordData({...forgetPasswordData, otp})}
-                error=""/>
-            <Input
-                label="New Password: "
-                placeholder="Enter your new password"
-                type="password"
-                value={forgetPasswordData.newPassword}
-                onChangeText={(newPassword) => setForgetPasswordData({...forgetPasswordData, newPassword})}
-                error=""/>
-            <Input
-                label="Confirm Password: "
-                placeholder="Re-enter your new password"
-                type="password"
-                value={forgetPasswordData.newPassword}
-                onChangeText={(newPassword) => setForgetPasswordData({...forgetPasswordData, newPassword})}
-                error=""/>
-            <Button onPress={handleResetPassword} text="Change Password"/>
+                label="Email: "
+                placeholder="Enter your email"
+                type="email"
+                value={data.email}
+                onChangeText={(text) => setData({...data, email: text})}
+                // error={!email ? "Email is required" : ""}
+            />
+            <Button onPress={handleVerifyEmail} text="Submit"/>
         </ScrollView>
     );
 }

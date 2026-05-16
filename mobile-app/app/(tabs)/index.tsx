@@ -9,7 +9,7 @@ import {Button} from "@/components/button";
 import {Texts} from "@/components/text"
 import {HalfCircle} from "@/components/half-circle";
 import axios from 'axios'
-import {router} from "expo-router";
+import {useRouter} from "expo-router";
 
 
 export default function SignUp() {
@@ -17,12 +17,15 @@ export default function SignUp() {
         email: "",
         password: ""
     })
+    const router = useRouter();
     const handleSignUp = async () => {
         try {
             const response = await
-                axios.post("http://192.168.0.196:8080/api/v1/auth/register", data)
+                axios.post("http://192.168.167.221:8080/api/v1/auth/register", data)
                 Alert.alert(response.data.data.message)
-
+                if (response.data.data.message === "User Registered Successfully") {
+                    router.replace("/login")
+                }
         } catch (e) {
             console.log(e)
         }
