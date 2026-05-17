@@ -18,7 +18,7 @@ interface HairProducts {
 export default function JobsPage() {
     const [hairProducts, setHairProducts] = useState<HairProducts[]>([])
     const getHairProducts = async () => {
-        const response = await axios.get("http://192.168.167.221:8080/api/v1/auth/getAllProducts")
+        const response = await axios.get("http://192.168.0.196:8080/api/v1/auth/getAllProducts")
         console.log(response.data)
         setHairProducts(response.data.data.products)
     }
@@ -34,100 +34,133 @@ export default function JobsPage() {
             <Input placeholder="search" value={search}
                    onChangeText={(text) => setSearch(text)}
                    type="search"></Input>
-            <View>
-                <LinearGradient
-                    colors={['#E0A3B9', '#E3D9DD']}
-                    start={[0, 1]}
-                    end={[0, 0]}
-                    style={styles.productsView} >
-                    <Text style={styles.text}>Get 50% Off Your First Order</Text>
-                    <View style={styles.imageContainer}>
-                        <view style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button}>
-                                <Text style={styles.buttonText}>Order Now</Text>
-                            </TouchableOpacity>
-                        </view>
-                        <Image source={require('../../assets/images/hair-image.svg')} style={styles.image}></Image>
-                    </View>
-                </LinearGradient>
-            </View>
-            <View style={styles.container}>
-                <Text style={styles.category}>Category</Text>
-                <TouchableOpacity style={styles.all}>
-                    <Text style={styles.allText}>See all</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.viewImagesContainer}>
-                <ScrollView horizontal contentContainerStyle={styles.viewImages}
-                            showsVerticalScrollIndicator={false}
+            {search.trim().length > 0 ? (
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.cardGradient}
                 >
-                    <View style={styles.imageContainerOne}>
-                        <Image source={require('../../assets/images/hair-image-one.svg')}
-                               style={styles.imageOne}></Image>
-                        <Text>Oil</Text>
-                    </View>
-                    <View style={styles.imageContainerTwo}>
-                        <Image source={require('../../assets/images/hair-image-two.svg')}
-                               style={styles.imageTwo}></Image>
-                        <Text>Cream</Text>
-                    </View>
-                    <View style={styles.imageContainerThree}>
-                        <Image source={require('../../assets/images/hair-image-three.svg')}
-                               style={styles.imageThree}></Image>
-                        <Text>Leaven-in</Text>
-                    </View>
-                    <View style={styles.imageContainerFour}>
-                        <Image source={require('../../assets/images/hair-image-four.svg')}
-                               style={styles.imageFour}></Image>
-                        <Text>Conditioner</Text>
-                    </View>
-                </ScrollView>
-            </View>
-            <View style={{ flex: 1 }}>
-                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
-                    {hairProducts.map((hairProduct) => (
-                        <View key={hairProduct.id} style={styles.card}>
-                            <View style={styles.topSection}>
-                                <Image
-                                    source={{ uri: hairProduct.imageUrl }}
-                                    style={styles.productImage}
-                                />
-                                <View style={styles.infoSection}>
-                                    <Text style={styles.title}>
-                                        {hairProduct.category}
+                    {handleSearch.map((hairProduct) => (
+                        <View key={hairProduct.id} style={styles.cardGradient}>
+                            <LinearGradient
+                                colors={['#E3D9DD', '#E0A3B9']}
+                                start={{ x: 0, y: 0 }}
+                                end={{ x: 0, y: 1 }}
+                                style={styles.cardGradient}
+                            ><View style={styles.searchedTopSection}>
+                                    <Image
+                                        source={{ uri: hairProduct.imageUrl }}
+                                        style={styles.searchedProductImage}
+                                    />
+                                <View style={styles.searchedInfoSection}>
+                                    <TouchableOpacity style={styles.addToCartPill}>
+                                        <Text style={styles.addToCartText}>Add To Cart</Text>
+                                    </TouchableOpacity>
+                                    <Text style={styles.subtitle}>
+                                        Get 50% Off Your First{"\n"}Order
                                     </Text>
-                                    <Text style={styles.price}>
-                                        Price: ₦{hairProduct.price}
-                                    </Text>
-                                    <TouchableOpacity >
-                                        <LinearGradient
-                                            colors={['#DFCDE0', '#B888BD', '#C778CE', '#D247DF']}
-                                            start={{ x: 1, y: 0 }}
-                                            end={{ x: 1, y: 1 }}
-                                            style={styles.cartButton}
-                                        >
-                                            <Text style={styles.cartButtonText}>
-                                                Add To Cart
-                                            </Text>
-                                        </LinearGradient>
+                                    <TouchableOpacity style={styles.searchOrderButton}>
+                                        <Text style={styles.searchOrderButtonText}>
+                                            Order Now
+                                        </Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                            <TouchableOpacity style={styles.orderButton}>
-                                <Text style={styles.orderButtonText}>
-                                    Order Now
-                                </Text>
-                            </TouchableOpacity>
+                            </LinearGradient>
                         </View>
                     ))}
                 </ScrollView>
-            </View>
-
-            {/*{handleSearch.map((hairProduct) => (*/}
-            {/*    <Text key={hairProduct.id}>*/}
-            {/*        {hairProduct.productName}*/}
-            {/*    </Text>*/}
-            {/*))}*/}
+                ) : (
+                    <>
+                        <View>
+                            <LinearGradient
+                                colors={['#E0A3B9', '#E3D9DD']}
+                                start={[0, 1]}
+                                end={[0, 0]}
+                                style={styles.productsView} >
+                                <Text style={styles.text}>Get 50% Off Your First Order</Text>
+                                <View style={styles.imageContainer}>
+                                    <view style={styles.buttonContainer}>
+                                        <TouchableOpacity style={styles.button}>
+                                            <Text style={styles.buttonText}>Order Now</Text>
+                                        </TouchableOpacity>
+                                    </view>
+                                    <Image source={require('../../assets/images/hair-image.svg')} style={styles.image}></Image>
+                                </View>
+                            </LinearGradient>
+                        </View>
+                        <View style={styles.container}>
+                            <Text style={styles.category}>Category</Text>
+                            <TouchableOpacity style={styles.all}>
+                                <Text style={styles.allText}>See all</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.viewImagesContainer}>
+                            <ScrollView horizontal contentContainerStyle={styles.viewImages}
+                                        showsVerticalScrollIndicator={false}
+                            >
+                                <View style={styles.imageContainerOne}>
+                                    <Image source={require('../../assets/images/hair-image-one.svg')}
+                                           style={styles.imageOne}></Image>
+                                    <Text>Oil</Text>
+                                </View>
+                                <View style={styles.imageContainerTwo}>
+                                    <Image source={require('../../assets/images/hair-image-two.svg')}
+                                           style={styles.imageTwo}></Image>
+                                    <Text>Cream</Text>
+                                </View>
+                                <View style={styles.imageContainerThree}>
+                                    <Image source={require('../../assets/images/hair-image-three.svg')}
+                                           style={styles.imageThree}></Image>
+                                    <Text>Leaven-in</Text>
+                                </View>
+                                <View style={styles.imageContainerFour}>
+                                    <Image source={require('../../assets/images/hair-image-four.svg')}
+                                           style={styles.imageFour}></Image>
+                                    <Text>Conditioner</Text>
+                                </View>
+                            </ScrollView>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+                                {hairProducts.map((hairProduct) => (
+                                    <View key={hairProduct.id} style={styles.card}>
+                                        <View style={styles.topSection}>
+                                            <Image
+                                                source={{ uri: hairProduct.imageUrl }}
+                                                style={styles.productImage}
+                                            />
+                                            <View style={styles.infoSection}>
+                                                <Text style={styles.title}>
+                                                    {hairProduct.category}
+                                                </Text>
+                                                <Text style={styles.price}>
+                                                    Price: ₦{hairProduct.price}
+                                                </Text>
+                                                <TouchableOpacity >
+                                                    <LinearGradient
+                                                        colors={['#DFCDE0', '#B888BD', '#C778CE', '#D247DF']}
+                                                        start={{ x: 1, y: 0 }}
+                                                        end={{ x: 1, y: 1 }}
+                                                        style={styles.cartButton}
+                                                    >
+                                                        <Text style={styles.cartButtonText}>
+                                                            Add To Cart
+                                                        </Text>
+                                                    </LinearGradient>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                        <TouchableOpacity style={styles.orderButton}>
+                                            <Text style={styles.orderButtonText}>
+                                                Order Now
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                ))}
+                            </ScrollView>
+                        </View>
+                    </>
+                )}
         </View>
     )
 }
@@ -135,6 +168,64 @@ const styles = StyleSheet.create({
     view: {
         flex: 1,
         backgroundColor: '#FFFFFF'
+    },
+    cardGradient: {
+        borderRadius: 15,
+        padding: 10,
+        width: 344,
+        height: 156,
+        marginBottom: 20
+    },
+    searchedProductImage: {
+        width: 98,
+        height: 98,
+        marginTop: -15
+    },
+    searchedInfoSection: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        paddingLeft: 15,
+        marginTop: -10,
+        gap: 10
+    },
+    searchedTopSection: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 10,
+    },
+    addToCartPill: {
+        backgroundColor: '#FBF5F5',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 20,
+        width: 76,
+        height: 30
+    },
+    addToCartText: {
+        fontSize: 10,
+        fontWeight: 'medium'
+    },
+    searchOrderButton: {
+        backgroundColor: '#D9D9D9',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 10,
+        width: 184,
+        height: 40,
+        justifyContent: 'center'
+    },
+    searchOrderButtonText: {
+        fontSize: 16,
+        fontWeight: 'medium',
+        color: '#300909',
+        alignSelf: 'center'
+    },
+    subtitle: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#300909',
     },
     productsView: {
         marginTop: 20,
@@ -171,7 +262,6 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontSize: 16,
-        fontWeight: "600",
         fontWeight: 'medium',
         color: "#300909"
     },

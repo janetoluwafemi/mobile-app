@@ -24,7 +24,7 @@ export default function ForgetPassword() {
     const handleResetPassword = async () => {
         try {
             const response = await
-                axios.patch("http://192.168.167.221:8080/api/v1/auth/resetPassword", payload);
+                axios.patch("http://192.168.0.196:8080/api/v1/auth/resetPassword", payload);
             Alert.alert(response.data.data.message)
         } catch (e) {
             console.log(e)

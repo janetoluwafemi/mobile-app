@@ -18,7 +18,7 @@ export default function verifyEmail() {
     const handleVerifyEmail = async () => {
         try {
             const response = await
-                axios.post("http://192.168.167.221:8080/api/v1/auth/verifyUser", data);
+                axios.post("http://192.168.0.196:8080/api/v1/auth/verifyUser", data);
             Alert.alert(response.data.data.message)
             router.replace('/user/forgetPassword')
         } catch (e) {

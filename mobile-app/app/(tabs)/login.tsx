@@ -21,7 +21,7 @@ export default function login() {
     const handleLogin = async () => {
         try {
             const response = await
-                axios.post("http://192.168.167.221:8080/api/v1/auth/loginUser", data);
+                axios.post("http://192.168.0.196:8080/api/v1/auth/loginUser", data);
             Alert.alert(response.data.data.message)
             if (response.data.data.message === "User logged in successfully") {
                 router.push("/jobs/hairProducts");

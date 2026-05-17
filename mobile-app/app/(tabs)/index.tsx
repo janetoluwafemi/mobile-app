@@ -21,7 +21,7 @@ export default function SignUp() {
     const handleSignUp = async () => {
         try {
             const response = await
-                axios.post("http://192.168.167.221:8080/api/v1/auth/register", data)
+                axios.post("http://192.168.0.196:8080/api/v1/auth/register", data)
                 Alert.alert(response.data.data.message)
                 if (response.data.data.message === "User Registered Successfully") {
                     router.replace("/login")
