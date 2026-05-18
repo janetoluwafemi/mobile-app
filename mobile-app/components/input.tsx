@@ -1,5 +1,6 @@
 import {TextInput, View, Text, StyleSheet} from "react-native";
 import {useRef} from "react";
+import {Image} from "expo-image";
 
 export type inputProps = {
     placeholder: string;
@@ -15,16 +16,23 @@ export function Input({placeholder, value, onChangeText, label, type, error,
     const inputRefs = useRef<Array<TextInput | null>>([]);
     if (type === "search") {
         return (
-            <TextInput
-                style={styles.searchInput}
-                placeholder={placeholder}
-                placeholderTextColor="#000"
-                value={value}
-                onChangeText={onChangeText}
-                autoCapitalize={'none'}
-                keyboardType={'default'}
-                returnKeyType={'search'}
-            />
+            <View style={styles.inputContainer}>
+                <Image
+                    source={require('../assets/images/search-logo.svg')}
+                    style={styles.searchIcon}
+                />
+
+                <TextInput
+                    style={styles.searchInput}
+                    placeholder={placeholder}
+                    placeholderTextColor="#000"
+                    value={value}
+                    onChangeText={onChangeText}
+                    autoCapitalize="none"
+                    keyboardType="default"
+                    returnKeyType="search"
+                />
+            </View>
         )
     }
     if (type === "otp") {
@@ -40,7 +48,6 @@ export function Input({placeholder, value, onChangeText, label, type, error,
                 inputRefs.current[index + 1]?.focus();
             }
         };
-
         const handleKeyPress = (
             key: string,
             index: number
@@ -56,7 +63,6 @@ export function Input({placeholder, value, onChangeText, label, type, error,
                 {label && (
                     <Text style={styles.label}>{label}</Text>
                 )}
-
                 <View style={styles.otpContainer}>
                     {Array.from({ length: otpLength }).map(
                         (_, index) => (
@@ -83,7 +89,6 @@ export function Input({placeholder, value, onChangeText, label, type, error,
                         )
                     )}
                 </View>
-
                 {error ? (
                     <Text style={styles.error}>{error}</Text>
                 ) : null}
@@ -133,17 +138,30 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: 350
     },
-    searchInput: {
+    inputContainer: {
         marginTop: 20,
-        padding: 12,
+        height: 35,
+        width: 303,
+        alignSelf: 'center',
+        justifyContent: 'center'
+    },
+    searchIcon: {
+        width: 24,
+        height: 24,
+        position: "absolute",
+        left: 15,
+        top: 8,
+        zIndex: 10
+    },
+    searchInput: {
+        height: 50,
+        paddingLeft: 45,
+        paddingRight: 12,
         fontSize: 16,
         borderWidth: 1,
-        borderColor: "#FBF5F5",
+        borderColor: '#FBF5F5',
         backgroundColor: '#FBF5F5',
         borderRadius: 30,
-        alignItems: 'center',
-        alignSelf: 'center',
-        width: 350
     },
     label: {
         fontSize: 16,

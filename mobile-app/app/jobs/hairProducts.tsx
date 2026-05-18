@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {LinearGradient} from "expo-linear-gradient";
 import {Image} from "expo-image";
+import {useRouter} from "expo-router";
 
 
 interface HairProducts {
@@ -16,6 +17,7 @@ interface HairProducts {
     imageUrl: string
 }
 export default function JobsPage() {
+    const router = useRouter();
     const [hairProducts, setHairProducts] = useState<HairProducts[]>([])
     const getHairProducts = async () => {
         const response = await axios.get
@@ -32,13 +34,18 @@ export default function JobsPage() {
     }, [])
     return (
         <View style={styles.view}>
-            <Input placeholder="search" value={search}
-                   onChangeText={(text) => setSearch(text)}
-                   type="search"></Input>
+            <View style={styles.searchContainer}>
+                <TouchableOpacity onPress={() => router.back()}>
+                    <Text style={styles.back}>Back</Text>
+                </TouchableOpacity>
+                <Input placeholder="Search" value={search}
+                       onChangeText={(text) => setSearch(text)}
+                       type="search"></Input>
+            </View>
             {search.trim().length > 0 ? (
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.cardGradient}
+                    contentContainerStyle={''}
                 >
                     {handleSearch.map((hairProduct) => (
                         <View key={hairProduct.id} style={styles.cardGradient}>
@@ -170,12 +177,23 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFFFFF'
     },
+    searchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 10,
+    },
+    back: {
+        color: '#92147B',
+        fontSize: 11,
+        textDecorationLine: 'underline',
+        marginTop: 15
+    },
     cardGradient: {
         borderRadius: 15,
         padding: 10,
         width: 344,
         height: 156,
-        marginBottom: 20
     },
     searchedProductImage: {
         width: 98,
