@@ -19,7 +19,7 @@ export default function RootLayout() {
               <Stack.Screen name="user/verifyEmail" options={{ headerShown: false }} />
               <Stack.Screen name="user/forgetPassword" options={{ headerShown: false }} />
               <Stack.Screen name="jobs/hairProducts" options={{ headerShown: false }} />
-              <Stack.Screen name="jobs/hairProduct" options={{ headerShown: false }} />
+              <Stack.Screen name="jobs/[id]" options={{ headerShown: false }} />
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>

@@ -131,7 +131,12 @@ export default function JobsPage() {
                         <View style={{ flex: 1 }}>
                             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
                                 {hairProducts.map((hairProduct) => (
-                                    <View key={hairProduct.id} style={styles.card}>
+                                    <TouchableOpacity
+                                        onPress={() => router.replace({
+                                            pathname: "/jobs/[id]",
+                                            params: { id: hairProduct.id }
+                                        })}
+                                        key={hairProduct.id} style={styles.card}>
                                         <View style={styles.topSection}>
                                             <Image
                                                 source={{ uri: hairProduct.imageUrl }}
@@ -163,7 +168,7 @@ export default function JobsPage() {
                                                 Order Now
                                             </Text>
                                         </TouchableOpacity>
-                                    </View>
+                                    </TouchableOpacity>
                                 ))}
                             </ScrollView>
                         </View>
