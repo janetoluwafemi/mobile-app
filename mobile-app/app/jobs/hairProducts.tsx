@@ -18,7 +18,8 @@ interface HairProducts {
 export default function JobsPage() {
     const [hairProducts, setHairProducts] = useState<HairProducts[]>([])
     const getHairProducts = async () => {
-        const response = await axios.get("http://192.168.0.196:8080/api/v1/auth/getAllProducts")
+        const response = await axios.get
+        ("http://192.168.0.196:8080/api/v1/auth/getAllProducts")
         console.log(response.data)
         setHairProducts(response.data.data.products)
     }
